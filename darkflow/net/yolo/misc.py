@@ -15,7 +15,7 @@ voc_models = ['yolo-full', 'yolo-tiny', 'yolo-small',  # <- v1
               'tiny-yolo-voc', 'yolo-voc'] # <- v2
 
 coco_models = ['tiny-coco', 'yolo-coco',  # <- v1.1
-               'yolo', 'tiny-yolo'] # <- v2
+               'yolo', 'tiny-yolo', 'tiny-yolo-coco'] # <- v2
 
 coco_names = 'coco.names'
 nine_names = '9k.names'

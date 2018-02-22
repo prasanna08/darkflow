@@ -42,8 +42,13 @@ class TFNet(object):
 			newFLAGS.setDefaults()
 			newFLAGS.update(FLAGS)
 			FLAGS = newFLAGS
+        
+        # Allow custom offset setting.
+		if not FLAGS.offset:
+			FLAGS.offset = 16
 
 		self.FLAGS = FLAGS
+
 		if self.FLAGS.pbLoad and self.FLAGS.metaLoad:
 			self.say('\nLoading from .pb and .meta')
 			self.graph = tf.Graph()

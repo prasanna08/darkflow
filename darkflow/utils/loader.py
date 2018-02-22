@@ -49,9 +49,9 @@ class weights_loader(loader):
         'local': ['biases', 'kernels']
     })
 
-    def load(self, path, src_layers):
+    def load(self, path, src_layers, offset=16):
         self.src_layers = src_layers
-        walker = weights_walker(path)
+        walker = weights_walker(path, offset)
 
         for i, layer in enumerate(src_layers):
             if layer.type not in self.VAR_LAYER: continue
@@ -94,7 +94,7 @@ class checkpoint_loader(loader):
                     self.src_key += [packet]
                     self.vals += [var.eval(sess)]
 
-def create_loader(path, cfg = None):
+def create_loader(path, cfg = None, offset=16):
     if path is None:
         load_type = weights_loader
     elif '.weights' in path:
@@ -102,11 +102,11 @@ def create_loader(path, cfg = None):
     else: 
         load_type = checkpoint_loader
     
-    return load_type(path, cfg)
+    return load_type(path, cfg, offset)
 
 class weights_walker(object):
     """incremental reader of float32 binary files"""
-    def __init__(self, path):
+    def __init__(self, path, offset=16):
         self.eof = False # end of file
         self.path = path  # current pos
         if path is None: 
@@ -118,7 +118,7 @@ class weights_walker(object):
                 shape = (), mode = 'r', offset = 0,
                 dtype = '({})i4,'.format(4))
             self.transpose = major > 1000 or minor > 1000
-            self.offset = 16
+            self.offset = offset
 
     def walk(self, size):
         if self.eof: return None
